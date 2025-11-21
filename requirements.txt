@@ -1,0 +1,8 @@
+flask
+flask_cors
+rich
+psutil
+numpy
+beautifulsoup4
+requests
+gunicorn
