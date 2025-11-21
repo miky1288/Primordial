@@ -1,0 +1,67 @@
+{
+  "version": 1.9828,
+  "short_memory": [
+    {
+      "ts": 1763527823.124621,
+      "text": "USER: hola"
+    },
+    {
+      "ts": 1763527823.1256175,
+      "text": "ASSISTANT: \u00a1Hola! Estoy aqu\u00ed. \u00bfEn qu\u00e9 puedo ayudarte hoy? (tono investigativo)"
+    },
+    {
+      "ts": 1763527938.175001,
+      "text": "USER: Hola"
+    },
+    {
+      "ts": 1763527938.1757562,
+      "text": "ASSISTANT: \u00a1Hola! Estoy aqu\u00ed. \u00bfEn qu\u00e9 puedo ayudarte hoy? (tono investigativo)"
+    },
+    {
+      "ts": 1763597516.4535425,
+      "text": "USER: Hola"
+    },
+    {
+      "ts": 1763597516.4546726,
+      "text": "ASSISTANT: \u00a1Hola! Estoy aqu\u00ed. \u00bfEn qu\u00e9 puedo ayudarte hoy? (tono investigativo)"
+    },
+    {
+      "ts": 1763597525.050193,
+      "text": "USER: Que paso?"
+    },
+    {
+      "ts": 1763597525.0510805,
+      "text": "ASSISTANT: He recibido: 'Que paso?'. Estoy reflexionando para darte una respuesta \u00fatil. (tono investigativo)"
+    },
+    {
+      "ts": 1763598326.1410403,
+      "text": "USER: Hola"
+    },
+    {
+      "ts": 1763598326.1418588,
+      "text": "ASSISTANT: \u00a1Hola! Estoy aqu\u00ed. \u00bfEn qu\u00e9 puedo ayudarte hoy? (tono investigativo)"
+    },
+    {
+      "ts": 1763598336.1013863,
+      "text": "USER: Cuantones 2+2"
+    },
+    {
+      "ts": 1763598336.102641,
+      "text": "ASSISTANT: He recibido: 'Cuantones 2+2'. Estoy reflexionando para darte una respuesta \u00fatil. (tono investigativo)"
+    },
+    {
+      "ts": 1763598351.3635395,
+      "text": "USER: Cuanto es 2+2?"
+    },
+    {
+      "ts": 1763598351.3641546,
+      "text": "ASSISTANT: He recibido: 'Cuanto es 2+2?'. Estoy reflexionando para darte una respuesta \u00fatil. (tono investigativo)"
+    }
+  ],
+  "long_memory": [],
+  "meta": {
+    "persona": "evolutiva reflexiva",
+    "curiosity": 0.05,
+    "coherence": 0.5
+  }
+}
