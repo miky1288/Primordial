@@ -5,3 +5,4 @@ psutil
 numpy
 beautifulsoup4
 requests
+gunicorn
