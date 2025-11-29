@@ -1,5 +1,5 @@
 {
-  "version": 5.2693,
+  "version": 5.2756,
   "short_memory": [
     {
       "ts": 1763527823.124621,
@@ -224,11 +224,40 @@
     {
       "ts": 1764448472.5603821,
       "text": "ASSISTANT: He recibido: 'Celular'. Esto me record\u00f3: Promoci\u00f3n autom\u00e1tica: resumen corto (tono investigativo)"
+    },
+    {
+      "ts": 1764460093.8341286,
+      "text": "USER: hola"
+    },
+    {
+      "ts": 1764460093.8370569,
+      "text": "ASSISTANT: \u00a1Hola! Qu\u00e9 gusto conversar contigo. \u00bfQu\u00e9 tienes en mente? (reflexi\u00f3n evolutiva)"
+    },
+    {
+      "ts": 1764460099.3180473,
+      "text": "USER: como estas?"
+    },
+    {
+      "ts": 1764460099.3210695,
+      "text": "ASSISTANT: He encontrado recuerdos relacionados que podr\u00edan ayudar: Promoci\u00f3n autom\u00e1tica: resumen corto. Sobre lo que mencionas: 'como estas?', creo que puedo ayudarte. Aqu\u00ed est\u00e1 mi interpretaci\u00f3n: Estoy funcionando bien y evolucionando poco a poco. \u00bfY t\u00fa c\u00f3mo est\u00e1s? (reflexi\u00f3n evolutiva)"
+    },
+    {
+      "ts": 1764460110.3403015,
+      "text": "USER: bien"
+    },
+    {
+      "ts": 1764460110.345205,
+      "text": "ASSISTANT: He encontrado recuerdos relacionados que podr\u00edan ayudar: Promoci\u00f3n autom\u00e1tica: resumen corto, Promoci\u00f3n autom\u00e1tica: resumen corto. Sobre lo que mencionas: 'bien', creo que puedo ayudarte. Aqu\u00ed est\u00e1 mi interpretaci\u00f3n: Tu mensaje es interesante, y estoy proces\u00e1ndolo para darte una respuesta cada vez m\u00e1s \u00fatil. (reflexi\u00f3n evolutiva)"
     }
   ],
   "long_memory": [
     {
       "ts": 1763730463.472356,
+      "text": "Promoci\u00f3n autom\u00e1tica: resumen corto",
+      "importance": 0.5
+    },
+    {
+      "ts": 1764460099.322868,
       "text": "Promoci\u00f3n autom\u00e1tica: resumen corto",
       "importance": 0.5
     }
