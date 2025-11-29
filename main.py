@@ -82,6 +82,13 @@ def run_background_thread():
     t = threading.Thread(target=run_ia, daemon=True)
     t.start()
 
+import threading
+from evolution_engine import auto_evolution_loop
+
+def run_background_thread():
+    t = threading.Thread(target=auto_evolution_loop, daemon=True)
+    t.start()
+
 
 import requests
 from bs4 import BeautifulSoup

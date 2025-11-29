@@ -1,0 +1,14 @@
+{
+  "auto_evolve": true,
+  "allow_self_editing": true,
+  "allow_file_creation": true,
+  "allow_file_editing": true,
+  "allow_code_updates": true,
+  "allow_memory_rewrite": true,
+  "allow_subagents": true,
+  "risk_level": "advanced",
+  "run_tests_before_apply": false,
+  "log_changes": true,
+  "auto_restart_after_update": true,
+  "max_recursive_updates": 10
+}
