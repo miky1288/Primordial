@@ -135,5 +135,15 @@ document.getElementById("msg").addEventListener("keydown", (e) => {
 });
 </script>
 
+    <script>
+    // Enviar un ping a /ping cada 10 minutos
+    setInterval(() => {
+        fetch("/ping")
+          .then(() => console.log("ping ok"))
+          .catch(() => console.log("ping fail"));
+    }, 600000);
+    </script>
+
+    
 </body>
 </html>

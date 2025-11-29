@@ -108,6 +108,11 @@ def do_summarize():
     return jsonify({"result": agent.safe_summarize()})
 
 
+@app.route("/ping")
+def ping():
+    return "ok", 200
+
+
 @app.route("/status", methods=["GET"])
 def status():
     state = main.load_state()
