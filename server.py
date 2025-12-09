@@ -71,7 +71,7 @@ def get_state():
 def ask():
     data = request.get_json(force=True)
     msg = data.get("message", "")
-    res = main.think(msg)
+    res = agent.agent_reply(msg, main.load_state())
     return jsonify({
         "response": res,
         "version": main.load_state().get("version")

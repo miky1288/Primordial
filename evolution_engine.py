@@ -1,5 +1,5 @@
 import os, json, time, shutil
-from main import load_state, save_state
+from state_manager import load_state, save_state
 import agent
 
 VERSIONS_DIR = "versions"

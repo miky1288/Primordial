@@ -1,64 +1,327 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Primordial Life — Chat</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Primordial — Chat Evolutivo</title>
 <style>
-:root{--green:#25D366;--bg:#ece5dd;--white:#fff}
-body{margin:0;background:var(--bg);font-family:system-ui,Arial}
-.header{background:#075E54;color:white;padding:14px;font-weight:600}
-.wrap{max-width:900px;margin:10px auto;background:transparent}
-.chat{background:var(--bg);height:70vh;overflow:auto;padding:20px;display:flex;flex-direction:column;gap:10px}
-.msg{max-width:70%;padding:10px;border-radius:12px}
-.user{align-self:flex-end;background:var(--green);color:#063;border:none;color:#000}
-.ia{align-self:flex-start;background:var(--white);color:#000}
-.inputbar{display:flex;gap:8px;padding:12px;max-width:900px;margin:0 auto}
-#txt{flex:1;padding:12px;border-radius:24px;border:none;outline:none}
-.btn{background:var(--green);border:none;color:white;padding:10px 14px;border-radius:20px;cursor:pointer}
-.footer{font-size:12px;color:#444;padding:8px;text-align:center}
+  :root{
+    --bg:#e5ddd5;
+    --accent:#075E54;
+    --bubble-user:#DCF8C6;
+    --bubble-ia:#FFFFFF;
+    --muted:#666;
+    --card:#fff;
+  }
+  body{
+    margin:0;
+    font-family: Inter, Arial, sans-serif;
+    background: linear-gradient(180deg, var(--bg), #f7f7f7);
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .app {
+    width:100%;
+    max-width:900px;
+    height:95vh;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    border-radius:12px;
+    overflow:hidden;
+    display:grid;
+    grid-template-columns: 1fr 360px;
+    gap:0;
+    background:var(--card);
+  }
+
+  /* left: chat */
+  .chat {
+    display:flex;
+    flex-direction:column;
+    height:100%;
+  }
+  .chat-header{
+    background:var(--accent);
+    color:#fff;
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .chat-header h2{ margin:0; font-size:18px; }
+  .status-pill{ font-size:13px; opacity:0.95;}
+  .messages{
+      flex: 1;
+      height: 100%;
+      max-height: calc(100vh - 160px); /* obliga a scroll */
+      padding: 18px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      display: block;
+      background: linear-gradient(180deg,#f8f9f8,#fff);
+  }
+  .bubble{
+    max-width:72%;
+    padding:10px 14px;
+    border-radius:12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    line-height:1.35;
+    word-wrap:break-word;
+  }
+  .user{ background:var(--bubble-user); align-self:flex-end; border-bottom-right-radius:4px;}
+  .ia{ background:var(--bubble-ia); align-self:flex-start; border-bottom-left-radius:4px;}
+  .meta{ font-size:12px; color:var(--muted); margin-top:6px;}
+
+  .input-area{
+    padding:12px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    border-top:1px solid #eee;
+    background: #fafafa;
+  }
+  #msg{
+    flex:1;
+    padding:10px 12px;
+    border-radius:24px;
+    border:1px solid #e0e0e0;
+    outline:none;
+    font-size:15px;
+  }
+  #send{
+    background: #25D366;
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:700;
+  }
+
+  /* right: panel */
+  .panel{
+    border-left:1px solid #eee;
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    background:linear-gradient(180deg,#fff,#f8f8f8);
+  }
+  .card{
+    background:#fff;
+    border-radius:10px;
+    padding:12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .small{ font-size:13px; color:var(--muted); }
+  .stat-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+  .bar{
+    height:10px;
+    background:#eee;
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,#4caf50,#8bc34a); }
+
+  .footer-note{ font-size:12px; color:#999; text-align:center; margin-top:auto; }
+
+  /* responsive */
+  @media(max-width:880px){
+    .app{ grid-template-columns:1fr; height:100vh; }
+    .panel{ height:260px; overflow:auto; }
+  }
 </style>
 </head>
 <body>
-<div class="header">🌱 Primordial Life — Chat</div>
-<div class="wrap">
-  <div id="chat" class="chat"></div>
-  <div class="inputbar">
-    <input id="txt" placeholder="Escribe un mensaje..." autocomplete="off"/>
-    <button id="snd" class="btn">Enviar</button>
+  <div class="app">
+    <div class="chat">
+      <div class="chat-header">
+        <h2>Primordial — IA Evolutiva</h2>
+        <div class="status-pill small" id="service-status">Conectando…</div>
+      </div>
+
+      <div class="messages" id="messages" aria-live="polite"></div>
+
+      <div class="input-area">
+        <input id="msg" placeholder="Escribe un mensaje..." autocomplete="off" />
+        <button id="send">Enviar</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <strong>Estado de Evolución</strong>
+          <span class="small" id="last-updated">—</span>
+        </div>
+        <div style="margin-top:10px;">
+          <div class="stat-row">
+            <div class="small">Curiosidad</div>
+            <div id="curiosity-value" class="small">—</div>
+          </div>
+          <div class="bar" style="margin-bottom:8px;"><i id="curiosity-bar" style="width:0%"></i></div>
+
+          <div class="stat-row">
+            <div class="small">Coherencia</div>
+            <div id="coherence-value" class="small">—</div>
+          </div>
+          <div class="bar" style="margin-bottom:8px;"><i id="coherence-bar" style="width:0%"></i></div>
+
+          <div class="stat-row">
+            <div class="small">Nivel</div>
+            <div id="level-value" class="small">—</div>
+          </div>
+
+          <div class="stat-row">
+            <div class="small">Memoria (largo)</div>
+            <div id="memory-value" class="small">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <strong>Controles & Tips</strong>
+        <p class="small" style="margin:8px 0;">
+          - Una buena conversación incrementa curiosidad y coherencia.<br/>
+          - Evita enviar mensajes en bucle para medir verdadera evolución.<br/>
+          - El sistema hace mantenimiento automático.
+        </p>
+        <button id="refresh-status" style="width:100%; padding:8px; border-radius:8px; border:1px solid #e0e0e0; background:#fff; cursor:pointer;">Actualizar ahora</button>
+      </div>
+
+      <div class="card">
+        <strong>Logs rápidos</strong>
+        <div id="quick-log" class="small" style="max-height:160px; overflow:auto; margin-top:8px; color:#333;">Sin registros recientes.</div>
+      </div>
+
+      <div class="footer-note small">Ping automático activo (10 min). Panel actualiza cada 10 s.</div>
+    </div>
   </div>
-  <div class="footer">IA evolutiva — Nivel 3 (propuestas controladas)</div>
-</div>
 
 <script>
-const chat = document.getElementById('chat');
-const txt = document.getElementById('txt');
-const btn = document.getElementById('snd');
+const BASE = ""; // deja vacío para usar mismo host (https://tu-url.onrender.com)
+const messagesEl = document.getElementById("messages");
+const sendBtn = document.getElementById("send");
+const input = document.getElementById("msg");
+const statusEl = document.getElementById("service-status");
+const lastUpdated = document.getElementById("last-updated");
+const curiosityVal = document.getElementById("curiosity-value");
+const curiosityBar = document.getElementById("curiosity-bar");
+const coherenceVal = document.getElementById("coherence-value");
+const coherenceBar = document.getElementById("coherence-bar");
+const levelVal = document.getElementById("level-value");
+const memoryVal = document.getElementById("memory-value");
+const quickLog = document.getElementById("quick-log");
+const refreshBtn = document.getElementById("refresh-status");
 
-function addBubble(text, kind){
-  const d = document.createElement('div');
-  d.className = 'msg ' + (kind==='user' ? 'user' : 'ia');
+let loading = false;
+
+function appendBubble(text, cls){
+  const d = document.createElement("div");
+  d.className = "bubble " + cls;
   d.innerText = text;
-  chat.appendChild(d);
-  chat.scrollTop = chat.scrollHeight;
+  messagesEl.appendChild(d);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
-async function send(){
-  const message = txt.value.trim();
-  if(!message) return;
-  addBubble(message, 'user');
-  txt.value = '';
+// enviar pregunta al backend
+async function sendMessage(){
+  if(loading) return;
+  const txt = input.value.trim();
+  if(!txt) return;
+  appendBubble(txt, "user");
+  input.value = "";
+  loading = true;
+  appendBubble("… pensando …", "ia");
   try{
-    const r = await fetch('/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message})});
-    const j = await r.json();
-    addBubble(j.response || 'Sin respuesta', 'ia');
-  }catch(e){
-    addBubble('Error al contactar al servidor','ia');
+    const res = await fetch(BASE + "/ask", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({message: txt})
+    });
+    if(!res.ok) throw new Error("Error de red");
+    const data = await res.json();
+    // reemplazar último placeholder (… pensando …)
+    const iaBubbles = messagesEl.querySelectorAll(".ia");
+    const last = iaBubbles[iaBubbles.length-1];
+    if(last) last.innerText = data.response || "(sin respuesta)";
+    logQuick("OK: /ask");
+  }catch(err){
+    console.error(err);
+    // mostrar error
+    const iaBubbles = messagesEl.querySelectorAll(".ia");
+    const last = iaBubbles[iaBubbles.length-1];
+    if(last) last.innerText = "Error: no se recibió respuesta.";
+    logQuick("ERR: /ask " + (err.message||err));
+  }finally{
+    loading = false;
+    pollStatus(); // actualizar estado tras interacción
   }
 }
 
-btn.onclick = send;
-txt.addEventListener('keydown', (e)=>{ if(e.key==='Enter') send(); });
+sendBtn.onclick = sendMessage;
+input.addEventListener("keydown", (e)=>{ if(e.key==="Enter") sendMessage(); });
+
+// ping cada 10 min para mantener Render despierto
+setInterval(()=> {
+  fetch(BASE + "/ping").then(()=> logQuick("Ping OK")).catch(()=> logQuick("Ping falló"));
+}, 600000);
+
+// status polling (cada 10s)
+async function pollStatus(){
+  try{
+    const res = await fetch(BASE + "/status");
+    if(!res.ok) throw new Error("status fail");
+    const s = await res.json();
+    statusEl.innerText = "En línea";
+    lastUpdated.innerText = new Date().toLocaleTimeString();
+    // valores: curiosity, coherence, version, proposals...
+    let curiosity = s.mental_parameters?.curiosity ?? (s.curiosity ?? null);
+    let coherence = s.mental_parameters?.coherence ?? (s.coherence ?? null);
+    let level = s.evolution_level ?? s.evolution_level ?? "—";
+    let memShort = s.memory?.short_memory_entries ?? s.memory?.short ?? 0;
+    let memLong = s.memory?.long_memory_entries ?? s.memory?.long ?? 0;
+
+    // Normalizar si vienen en 0..1 o en % 0..100
+    function norm(v){
+      if(v===null || v===undefined) return 0;
+      if(typeof v === "string") v = parseFloat(v) || 0;
+      if(v <= 1.01) return Math.round(v*100);
+      return Math.round(v);
+    }
+
+    const curPct = norm(curiosity);
+    const cohPct = norm(coherence);
+
+    curiosityVal.innerText = curPct + "%";
+    curiosityBar.style.width = Math.min(100, curPct) + "%";
+
+    coherenceVal.innerText = cohPct + "%";
+    coherenceBar.style.width = Math.min(100, cohPct) + "%";
+
+    levelVal.innerText = typeof level === "string" ? level : ("Nivel " + level);
+    memoryVal.innerText = memLong;
+
+    logQuick("Status OK");
+  }catch(err){
+    statusEl.innerText = "Sin conexión";
+    logQuick("ERR: /status");
+    console.error(err);
+  }
+}
+
+// quick log
+function logQuick(text){
+  const ts = new Date().toLocaleTimeString();
+  quickLog.innerText = ts + " — " + text + "\n" + quickLog.innerText;
+}
+
+// actualizar manual
+refreshBtn.onclick = pollStatus;
+
+// arranque
+pollStatus();
 </script>
 </body>
 </html>
