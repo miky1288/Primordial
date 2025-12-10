@@ -1,9 +1,18 @@
-import os, json, time, shutil
+# evolution_engine.py (corregido)
+import os
+import json
+import time
 from state_manager import load_state, save_state
 import agent
 
 VERSIONS_DIR = "versions"
+PROPOSALS_DIR = "proposals"
 EVOLUTION_DIR = "evolutionary"
+
+os.makedirs(VERSIONS_DIR, exist_ok=True)
+os.makedirs(PROPOSALS_DIR, exist_ok=True)
+os.makedirs(EVOLUTION_DIR, exist_ok=True)
+
 
 def evolve_code():
     state = load_state()
@@ -22,7 +31,7 @@ def evolve_code():
         json.dumps(state, indent=4)
     ])
 
-    with open(new_file, "w") as f:
+    with open(new_file, "w", encoding="utf-8") as f:
         f.write(content)
 
     state["version"] = new_version
@@ -36,10 +45,34 @@ def prune_directories(max_logs=200):
         logs = os.listdir("logs")
         if len(logs) > max_logs:
             for f in sorted(logs)[:-max_logs]:
-                os.remove(os.path.join("logs", f))
+                try:
+                    os.remove(os.path.join("logs", f))
+                except Exception:
+                    pass
+
 
 def auto_evolution_loop():
     while True:
-        msg = evolve_code()
-        prune_directories()
+        try:
+            evolve_code()
+            prune_directories()
+        except Exception:
+            pass
         time.sleep(120)
+
+
+def process_interaction(user_message, ai_response, state):
+    try:
+        os.makedirs(PROPOSALS_DIR, exist_ok=True)
+        timestamp = int(time.time())
+        filename = f"{PROPOSALS_DIR}/proposal_{timestamp}.json"
+        data = {
+            "timestamp": timestamp,
+            "user_message": user_message,
+            "ai_response": ai_response,
+            "state_snapshot": state
+        }
+        with open(filename, "w", encoding="utf8") as f:
+            json.dump(data, f, indent=4)
+    except Exception as e:
+        print("Error en process_interaction:", e)
